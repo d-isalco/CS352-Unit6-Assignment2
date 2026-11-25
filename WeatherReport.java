@@ -90,6 +90,32 @@ public class WeatherReport {
         return results;
     }
 
+    private void timeMethods(String label){
+        final int trials = 4;
+
+        //Give each method one warm-up run.
+        computeByList();
+        computeByTree();
+
+        for (int trial = 1; trial <= trials; trial++){
+            long start = System.nanoTime();
+            List<StateSummary> listResult = computeByList();
+            long listNanos = System.nanoTime() - start;
+
+            start = System.nanoTime();
+            TreeMap<String, StateSummary> treeResult = computeByTree();
+            long treeNanos = System.nanoTime() - start;
+            
+            System.out.printf("%s run %d | List: %.4f ms | TreeMap: %.4f ms%n",
+                label, trial, listNanos / 1_000_000.0, treeNanos / 1_000_000.0);
+
+            System.out.println(label + "list: " + listResult);
+            System.out.println(label + "tree: " + treeResult);
+
+        }
+
+    }
+
     public static void main(String[] args) throws FileNotFoundException{
         WeatherReport sample = new WeatherReport();
 
@@ -109,11 +135,8 @@ public class WeatherReport {
         WeatherReport fileReport = new WeatherReport(filename);
         System.out.println("File readings loaded: " + fileReport.readings.size());
 
-        System.out.println("Sample list: " + sample.computeByList());
-        System.out.println("File list: " + fileReport.computeByList());
-        System.out.println("Sample tree: " + sample.computeByTree());
-        System.out.println("File tree: " + fileReport.computeByTree());
-
+        sample.timeMethods("Sample");
+        fileReport.timeMethods("File");
 
         }
 
