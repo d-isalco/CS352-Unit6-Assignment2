@@ -1,4 +1,4 @@
-import java.util.Comparator;
+import java.util.TreeMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.io.File;
@@ -72,6 +72,24 @@ public class WeatherReport {
         return results;
     }
 
+    public TreeMap<String, StateSummary> computeByTree() {
+        TreeMap<String, StateSummary> results = new TreeMap<>();
+
+            for (WeatherReading reading : readings) {
+            String state = reading.getState();
+            StateSummary summary = results.get(state);
+
+            if (summary == null){
+                summary = new StateSummary(state);
+                results.put(state,summary);
+            }
+
+            summary.recordReading(reading.hasLargeSwing());
+
+        }
+        return results;
+    }
+
     public static void main(String[] args) throws FileNotFoundException{
         WeatherReport sample = new WeatherReport();
 
@@ -93,7 +111,12 @@ public class WeatherReport {
 
         System.out.println("Sample list: " + sample.computeByList());
         System.out.println("File list: " + fileReport.computeByList());
+        System.out.println("Sample tree: " + sample.computeByTree());
+        System.out.println("File tree: " + fileReport.computeByTree());
 
-    }
+
+        }
+
 
 }
+
