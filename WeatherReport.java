@@ -108,9 +108,12 @@ public class WeatherReport {
             
             System.out.printf("%s run %d | List: %.4f ms | TreeMap: %.4f ms%n",
                 label, trial, listNanos / 1_000_000.0, treeNanos / 1_000_000.0);
+            
+            if (trial == trials){
+                System.out.println(label + "list: " + listResult);
+                System.out.println(label + "tree: " + treeResult);
+            }
 
-            System.out.println(label + "list: " + listResult);
-            System.out.println(label + "tree: " + treeResult);
 
         }
 
@@ -139,7 +142,6 @@ public class WeatherReport {
         fileReport.timeMethods("File");
 
         }
-
 
 }
 
