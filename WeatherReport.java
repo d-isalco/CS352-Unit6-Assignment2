@@ -6,8 +6,8 @@ import java.util.LinkedList;
 import java.io.FileNotFoundException;
 /**
  * @author John Cigas
- * David Montenegro 19 November 2020
- * CS352-Unit 5 Assignment 2
+ * David Montenegro 25 November 2020
+ * CS352-Unit 6 Assignment 2
  */
 public class WeatherReport {
     private LinkedList<Temperature> temperatures;
