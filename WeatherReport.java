@@ -46,7 +46,31 @@ public class WeatherReport {
                 readings.add(new WeatherReading(state, high, low));
             }
         }
-    }    
+    }
+    
+    public List<StateSummary> computeByList(){
+        List<StateSummary> results = new LinkedList<>();
+
+        for (WeatherReading reading : readings) {
+            String state = reading.getState();
+            StateSummary match = null;
+
+            for (StateSummary summary : results) {
+                if (summary.getState().equals(state)) {
+                    match = summary;
+                    break;
+                }
+            }
+
+            if (match == null) {
+                match = new StateSummary(state);
+                results.add(match);
+            }
+            match.recordReading(reading.hasLargeSwing());
+        }
+
+        return results;
+    }
 
     public static void main(String[] args) throws FileNotFoundException{
         WeatherReport sample = new WeatherReport();
@@ -65,8 +89,11 @@ public class WeatherReport {
         }
 
         WeatherReport fileReport = new WeatherReport(filename);
-        System.out.println("File readings loaded: " + 
-            fileReport.readings.size());
+        System.out.println("File readings loaded: " + fileReport.readings.size());
+
+        System.out.println("Sample list: " + sample.computeByList());
+        System.out.println("File list: " + fileReport.computeByList());
+
     }
 
 }
